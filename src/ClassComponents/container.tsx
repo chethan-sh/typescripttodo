@@ -23,7 +23,7 @@ export default class Container extends React.Component<{}, IstateTs> {
       typee: "all",
     }
   }
-  
+
   addTask(todotask: string, isTaskComplete: boolean,update:boolean) {
     if (update) {
       arr.push({
@@ -40,6 +40,7 @@ export default class Container extends React.Component<{}, IstateTs> {
 
   render() {
     return (
+
       <div>
         <Input onclick={this.addTask}></Input>
         <Display call={this.addTask} typee={this.state.typee} todo={this.state.todo}></Display>

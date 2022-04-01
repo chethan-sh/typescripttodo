@@ -15,13 +15,16 @@ export default class ListItem extends Component<Iprops,{}> {
     setStatus(e:React.FormEvent<HTMLInputElement>) {
       let check=e.currentTarget.checked;
       if(check) {
-        if(window.confirm("Are you sure task complete")) {
           arr[+this.props.name]['isTaskComplete']=check;
-        }
+          alert("task complete");
+
       }  else {
-        alert("task already completed");
-        e.currentTarget.checked=true;
+        arr[+this.props.name]['isTaskComplete']=check;
+        alert("task not completed yet");
       }
+    }
+    deleteTask() {
+      
     }
   render() {   
                        
@@ -29,7 +32,7 @@ export default class ListItem extends Component<Iprops,{}> {
     return (
       <div>
           <p>{todotask}</p>
-          <button>Del</button>
+          <button onClick={()=>{}}>Del</button>
           <button name={this.props.name} onClick={(e:React.MouseEvent<HTMLButtonElement>)=>showPop(e.currentTarget.name)}>edit</button>
           <input onChange={(e:React.FormEvent<HTMLInputElement>)=>this.setStatus(e)} defaultChecked={isTaskComplete} type="checkbox" />
       </div>
