@@ -11,6 +11,7 @@ type PropsTs={
     call:(task:string,isTaskComplete:boolean,update:boolean)=>void;
     typee:string;
     todo:Item[];
+    refresh:()=>void;
 }
 
 interface IstateTs {
@@ -65,21 +66,18 @@ export default class Display extends Component<PropsTs,IstateTs> {
     const{typee} =this.props;
     
     let items=arr?.map(({task,isTaskComplete},index)=>{
-        return <ListItem isTaskComplete={isTaskComplete} name={String(index)} showPop={this.showPop} todotask={task}></ListItem>
+        return <ListItem refresh={this.props.refresh} isTaskComplete={isTaskComplete} name={String(index)} showPop={this.showPop} todotask={task}></ListItem>
     });
-
-    
 
     let completedTasks:{}[]=[];
     let notCompletedTasks:{}[]=[];
-    items?.forEach((listitem:{},index:number) => {
+    items?.forEach((listitem,index) => {
         if(arr[index]['isTaskComplete']) {
             completedTasks.push(listitem);
         } else {
             notCompletedTasks.push(listitem);
         }
     });
-
 
     return (
         <div className='display'>

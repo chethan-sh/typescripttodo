@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React from 'react'
 import Input from './input'
 import Action from './action'
 import arr from '../todoArr'
@@ -18,17 +18,20 @@ export default class Container extends React.Component<{}, IstateTs> {
     super(props);
     this.addTask = this.addTask.bind(this);
     this.typeOfDisplay = this.typeOfDisplay.bind(this);
+    this.refresh=this.refresh.bind(this);
     this.state = {
       todo: [],
       typee: "all",
     }
   }
-
+  refresh() {
+    this.setState({ todo: [...arr,] });
+  }
   addTask(todotask: string, isTaskComplete: boolean,update:boolean) {
     if (update) {
       arr.push({
-        ['task']: todotask,
-        ['isTaskComplete']: isTaskComplete,
+        'task': todotask,
+        'isTaskComplete': isTaskComplete,
       });
     }
     this.setState({ todo: [...arr,] });
@@ -40,10 +43,9 @@ export default class Container extends React.Component<{}, IstateTs> {
 
   render() {
     return (
-
       <div>
         <Input onclick={this.addTask}></Input>
-        <Display call={this.addTask} typee={this.state.typee} todo={this.state.todo}></Display>
+        <Display refresh={this.refresh} call={this.addTask} typee={this.state.typee} todo={this.state.todo}></Display>
         <Action typeOfDisplay={this.typeOfDisplay} ></Action>
       </div>
     )
