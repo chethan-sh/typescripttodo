@@ -10,7 +10,7 @@ interface Item{
 }
 interface IstateTs {
   todo: Item[];
-  typee: string;
+  typeofDisplay: string;
 }
 
 export default class Container extends React.Component<{}, IstateTs> {
@@ -18,17 +18,14 @@ export default class Container extends React.Component<{}, IstateTs> {
     super(props);
     this.addTask = this.addTask.bind(this);
     this.typeOfDisplay = this.typeOfDisplay.bind(this);
-    this.refresh=this.refresh.bind(this);
     this.state = {
       todo: [],
-      typee: "all",
+      typeofDisplay: 'all',
     }
   }
-  refresh() {
-    this.setState({ todo: [...arr,] });
-  }
-  addTask(todotask: string, isTaskComplete: boolean,update:boolean) {
-    if (update) {
+  
+  addTask(todotask: string, isTaskComplete: boolean) {
+    if (todotask) {
       arr.push({
         'task': todotask,
         'isTaskComplete': isTaskComplete,
@@ -38,14 +35,14 @@ export default class Container extends React.Component<{}, IstateTs> {
   }
 
   typeOfDisplay(typee: string) {
-    this.setState({ typee: typee })
+    this.setState({ typeofDisplay: typee })
   }
 
   render() {
     return (
       <div>
         <Input onclick={this.addTask}></Input>
-        <Display refresh={this.refresh} call={this.addTask} typee={this.state.typee} todo={this.state.todo}></Display>
+        <Display typeofDisplay={this.state.typeofDisplay} todo={this.state.todo}></Display>
         <Action typeOfDisplay={this.typeOfDisplay} ></Action>
       </div>
     )

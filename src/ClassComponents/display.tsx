@@ -8,10 +8,8 @@ interface Item {
         isTaskComplete:boolean;
 }
 type PropsTs={
-    call:(task:string,isTaskComplete:boolean,update:boolean)=>void;
-    typee:string;
+    typeofDisplay:string;
     todo:Item[];
-    refresh:()=>void;
 }
 
 interface IstateTs {
@@ -31,24 +29,24 @@ export default class Display extends Component<PropsTs,IstateTs> {
         };
     }
 
-    showPop(name:string) {
-        let index:string=name;
+    showPop(e:React.MouseEvent<HTMLButtonElement>) {
+        const taskid:string=String(e.currentTarget.parentElement?.id);
+        const index:number=+taskid;
 
-        if(arr[+index]['isTaskComplete']) {
-            alert("Task Already completed cant edit");
+        if(arr[index]['isTaskComplete']) {
+            alert('Task Already completed cant edit');
         } else {
-            this.setState((prevState)=>{
-                console.log(prevState);
+            this.setState(()=>{
                 if (this.state.showPopup) {
                     return {
                         showPopup:false,
-                        name:name
+                        name:taskid
                     }
                 }
                 else {
                     return {
                         showPopup:true,
-                        name:name
+                        name:taskid
                     }
                 }
             })
@@ -60,29 +58,26 @@ export default class Display extends Component<PropsTs,IstateTs> {
     }
 
   render() {
-    const persons = new Array(this.props.todo);
-    let arr=persons[0];
-      
-    const{typee} =this.props;
+    const{typeofDisplay} =this.props;
     
-    let items=arr?.map(({task,isTaskComplete},index)=>{
-        return <ListItem refresh={this.props.refresh} isTaskComplete={isTaskComplete} name={String(index)} showPop={this.showPop} todotask={task}></ListItem>
-    });
+    const completedTasks:{}[]=[];
+    const notCompletedTasks:{}[]=[];
+    const items:{}[]=[];
 
-    let completedTasks:{}[]=[];
-    let notCompletedTasks:{}[]=[];
-    items?.forEach((listitem,index) => {
-        if(arr[index]['isTaskComplete']) {
+    arr&&arr.forEach(({task,isTaskComplete},index)=>{
+        let listitem=<ListItem key={index} isTaskComplete={isTaskComplete} taskid={String(index)} showPop={this.showPop} todotask={task}></ListItem>
+        if(isTaskComplete) {
             completedTasks.push(listitem);
         } else {
             notCompletedTasks.push(listitem);
         }
-    });
+        items.push(listitem);
+    })
 
     return (
         <div className='display'>
-            {(typee==='all')?items:(typee==='completed')?completedTasks:notCompletedTasks}
-            {(this.state.showPopup)?<Edit clearEditCompo={this.clearEditCompo} call={this.props.call} name={this.state.name}></Edit>:""}
+            {(typeofDisplay==='all')?items:(typeofDisplay==='completed')?completedTasks:notCompletedTasks}
+            {(this.state.showPopup)?<Edit clearEditCompo={this.clearEditCompo}  taskid={this.state.name}></Edit>:""}
      </div>
     )
   }

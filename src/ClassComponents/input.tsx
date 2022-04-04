@@ -2,7 +2,7 @@ import React, { Component, HtmlHTMLAttributes } from 'react'
 
 
 type Iprops={
-  onclick:(task:string,isTaskComplete:boolean,update:boolean)=>void;
+  onclick:(task:string,isTaskComplete:boolean)=>void;
 }
 export default class Input extends Component<Iprops> {
     constructor(props:Iprops)
@@ -12,7 +12,7 @@ export default class Input extends Component<Iprops> {
     }
     updateArray() {
         let task=(document.getElementById('textEntered') as HTMLInputElement).value;
-        this.props.onclick(task,false,true);
+        this.props.onclick(task,false);
     }
   render() {
     return (
